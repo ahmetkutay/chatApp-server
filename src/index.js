@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(helmet());
 
 if (process.env.NODE_ENV === 'development') {
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
         res.status(err.status || 500).json({
             error: {
                 message: err.message,
@@ -33,11 +33,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/', (req, res) => {
-    Logger.info(`GET /`);
+    Logger.info('GET /');
     return res.status(200).json({success: true, users: []});
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error(err.stack);
 
     const errorResponse = {
@@ -51,9 +51,14 @@ app.use((err, req, res, next) => {
     res.status(500).json(errorResponse);
 });
 
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-    Logger.info(`Server is running on port ${port}`);
-});
-
 module.exports = app;
+
+// Start the server
+const port = process.env.PORT || 8080;
+
+if (process.env.NODE_ENV !== 'testing') {
+    app.listen(port, () => {
+        Logger.info(`Server is running on port ${port}`);
+    });
+}
+
