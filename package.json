@@ -4,16 +4,16 @@
   "description": "This repository will be responsible for the chat app which is used as a restful-api",
   "main": "dist/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production nodemon index.js",
-    "start:dev": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production nodemon dist/index.js",
+    "start:dev": "nodemon src/index.js",
     "test": "jest --watchAll --verbose",
     "build": "npm run clean && npm run lint && npm run transpile",
     "build:local": "npm run clean:local && npm run lint && npm run transpile",
     "build:master": "npm run build && npm run minify",
     "clean": "rm -rf dist",
     "clean:local": "del dist",
-    "lint": "eslint .",
-    "transpile": "babel . --out-dir dist"
+    "lint": "eslint src",
+    "transpile": "npx babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -41,11 +41,7 @@
   "devDependencies": {
     "@babel/cli": "^7.22.5",
     "@babel/core": "^7.22.5",
-    "@babel/plugin-proposal-private-methods": "^7.18.6",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.22.5",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.43.0",
     "eslint-config-airbnb-base": "^15.0.0",

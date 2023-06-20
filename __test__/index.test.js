@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../index');
+const app = require('../src');
 
 describe('HTTP Tests', () => {
     it('GET / should return a successful response', async () => {
