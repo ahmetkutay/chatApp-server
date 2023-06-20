@@ -3,7 +3,7 @@ const {createLogger, format, transports} = winston;
 const fs = require('fs');
 const path = require('path');
 
-const logDirectory = path.join(__dirname, '../logs');
+const logDirectory = path.join(__dirname, '../../logs');
 
 // Check if the log directory exists, create it if it doesn't
 if (!fs.existsSync(logDirectory)) {
