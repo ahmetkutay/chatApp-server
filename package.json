@@ -1,0 +1,40 @@
+{
+  "name": "chatapp-server",
+  "version": "1.0.0",
+  "description": "This repository will be responsible for the chat app which is used as a restful-api",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "start:dev": "nodemon index.js",
+    "start:prod": "pm2 start app.js --name your-app --env production",
+    "stop:prod": "pm2 stop your-app",
+    "restart:prod": "pm2 restart your-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmniaPotentia/chatApp-server.git"
+  },
+  "keywords": [
+    "nodejs",
+    "socketio",
+    "express",
+    "restfull",
+    "mongodb"
+  ],
+  "author": "Omnia Potentia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OmniaPotentia/chatApp-server/issues"
+  },
+  "homepage": "https://github.com/OmniaPotentia/chatApp-server#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "mkdirp": "^3.0.1",
+    "winston": "^3.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.22"
+  }
+}
