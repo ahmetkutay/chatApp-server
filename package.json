@@ -6,9 +6,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "start:dev": "nodemon index.js",
-    "start:prod": "pm2 start app.js --name your-app --env production",
-    "stop:prod": "pm2 stop your-app",
-    "restart:prod": "pm2 restart your-app"
+    "start:prod": "pm2 start index.js --name omnia-potentia-pm2 --env production",
+    "stop:prod": "pm2 stop omnia-potentia-pm2",
+    "restart:prod": "pm2 restart omnia-potentia-pm2"
   },
   "repository": {
     "type": "git",
