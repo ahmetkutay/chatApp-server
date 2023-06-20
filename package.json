@@ -8,7 +8,8 @@
     "start:dev": "nodemon index.js",
     "start:prod": "pm2 start index.js --name omnia-potentia-pm2 --env production",
     "stop:prod": "pm2 stop omnia-potentia-pm2",
-    "restart:prod": "pm2 restart omnia-potentia-pm2"
+    "restart:prod": "pm2 restart omnia-potentia-pm2",
+    "test": "jest --watchAll --verbose"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "nodemon": "^2.0.22"
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   }
 }

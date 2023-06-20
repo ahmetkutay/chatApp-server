@@ -51,7 +51,9 @@ app.use((err, req, res, next) => {
     res.status(500).json(errorResponse);
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
     Logger.info(`Server is running on port ${port}`);
 });
+
+module.exports = app;
