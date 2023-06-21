@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon dist/index.js",
-    "start:dev": "nodemon src/index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --no-cache",
     "build": "npm run clean && npm run lint && npm run transpile",
     "build:local": "npm run clean:local && npm run lint && npm run transpile",
@@ -32,9 +32,11 @@
   },
   "homepage": "https://github.com/ahmetkutay/chatApp-server#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
     "mkdirp": "^3.0.1",
+    "mongodb": "^5.6.0",
     "winston": "^3.9.0"
   },
   "devDependencies": {

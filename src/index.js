@@ -1,14 +1,19 @@
 const express = require('express');
 const helmet = require('helmet');
 const Logger = require('./Helpers/Logger');
+const routes = require('./routes/routes.js');
+const {connectToMongoDB} = require('./config/mongo');
+require('dotenv').config();
 
 const app = express();
 
 app.use(express.json());
 app.use(helmet());
+app.use('/api', routes);
 
 if (process.env.NODE_ENV === 'development') {
-    app.use((err, req, res) => {
+    // eslint-disable-next-line no-unused-vars
+    app.use((err, req, res, next) => {
         res.status(err.status || 500).json({
             error: {
                 message: err.message,
@@ -37,7 +42,8 @@ app.get('/', (req, res) => {
     return res.status(200).json({success: true, users: []});
 });
 
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
     console.error(err.stack);
 
     const errorResponse = {
@@ -57,8 +63,9 @@ module.exports = app;
 const port = process.env.PORT || 8080;
 
 if (process.env.NODE_ENV !== 'testing') {
-    app.listen(port, () => {
+    app.listen(port, async () => {
         Logger.info(`Server is running on port ${port}`);
+        await connectToMongoDB();
     });
 }
 
