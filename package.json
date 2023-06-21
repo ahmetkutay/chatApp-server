@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OmniaPotentia/chatApp-server.git"
+    "url": "https://github.com/ahmetkutay/chatApp-server"
   },
   "keywords": [
     "nodejs",
@@ -28,9 +28,9 @@
   "author": "Omnia Potentia",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/OmniaPotentia/chatApp-server/issues"
+    "url": "https://github.com/ahmetkutay/chatApp-server"
   },
-  "homepage": "https://github.com/OmniaPotentia/chatApp-server#readme",
+  "homepage": "https://github.com/ahmetkutay/chatApp-server#readme",
   "dependencies": {
     "express": "^4.18.2",
     "helmet": "^7.0.0",
