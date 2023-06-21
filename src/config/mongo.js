@@ -12,7 +12,6 @@ async function connectToMongoDB() {
     try {
         Logger.info('Connecting to MongoDB...');
         await mongoClient.connect().then(() => mongoDB = mongoClient.db(db)).catch(error => Logger.error(`Error connecting to MongoDB: ${error}`));
-        Logger.info('Connected to MongoDB successfully');
     } catch (error) {
         Logger.error(`Error connecting to MongoDB: ${error}`);
     }
@@ -24,8 +23,8 @@ function getMongoDBConnection() {
 
 async function closeMongoDB() {
     try {
+        Logger.info('MongoDB connection is closing...');
         await mongoClient.close();
-        Logger.info('MongoDB connection closed');
     } catch (error) {
         Logger.error(`Error closing MongoDB connection: ${error}`);
     }

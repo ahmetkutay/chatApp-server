@@ -1,11 +1,52 @@
 const express = require('express');
 const helmet = require('helmet');
+const http = require('http');
+const socketIO = require('socket.io');
 const Logger = require('./Helpers/Logger');
 const routes = require('./routes/routes.js');
-const {connectToMongoDB} = require('./config/mongo');
+const {connectToMongoDB, closeMongoDB} = require('./config/mongo');
 require('dotenv').config();
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+
+const connectedClients = new Set();
+
+io.on('connection', (socket) => {
+    Logger.info(`Socket connected: ${socket.id}`);
+
+    connectedClients.add(socket);
+
+    socket.on('heartbeat', () => {
+        Logger.info(`Received heartbeat from client: ${socket.id}`);
+    });
+
+    socket.on('disconnect', () => {
+        Logger.info(`Socket disconnected: ${socket.id}`);
+        connectedClients.delete(socket);
+
+        if (connectedClients.size === 0) {
+            closeMongoDB()
+                .then(() => {
+                    Logger.info('MongoDB connection closed Successfully');
+                })
+                .catch((error) => {
+                    Logger.error(`Error closing MongoDB connection: ${error}`);
+                });
+        }
+    });
+
+    if (connectedClients.size === 1) {
+        connectToMongoDB()
+            .then(() => {
+                Logger.info('MongoDB connection opened');
+            })
+            .catch((error) => {
+                Logger.error(`Error opening MongoDB connection: ${error}`);
+            });
+    }
+});
 
 app.use(express.json());
 app.use(helmet());
@@ -63,9 +104,8 @@ module.exports = app;
 const port = process.env.PORT || 8080;
 
 if (process.env.NODE_ENV !== 'testing') {
-    app.listen(port, async () => {
+    server.listen(port, async () => {
         Logger.info(`Server is running on port ${port}`);
-        await connectToMongoDB();
     });
 }
 
