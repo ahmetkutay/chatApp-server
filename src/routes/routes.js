@@ -1,7 +1,7 @@
 const express = require('express');
-const usersRoute = require('./Users/index.js');
-const AuthRoute = require('./Auth/index.js');
-const LogRoute = require('./Log/index.js');
+const usersRoute = require('./users/index.js');
+const AuthRoute = require('./auth/index.js');
+const LogRoute = require('./log/index.js');
 
 const router = express.Router();
 

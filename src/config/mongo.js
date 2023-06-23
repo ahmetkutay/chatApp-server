@@ -1,6 +1,7 @@
 const {MongoClient} = require('mongodb');
 const config = require('./config');
-const Logger = require('../Helpers/Logger');
+const Logger = require('../helpers/logger');
+const {createUserCollection} = require('./mongoSchemas/userSchemaValidation');
 
 const {database: {dsn, db}} = config;
 
@@ -11,9 +12,27 @@ async function connectToMongoDB() {
     mongoClient = new MongoClient(dsn);
     try {
         Logger.info('Connecting to MongoDB...');
-        await mongoClient.connect().then(() => mongoDB = mongoClient.db(db)).catch(error => Logger.error(`Error connecting to MongoDB: ${error}`));
+        await mongoClient.connect();
+        mongoDB = mongoClient.db(db);
+        await createCollectionIfNotExists('users');
     } catch (error) {
         Logger.error(`Error connecting to MongoDB: ${error}`);
+    }
+}
+
+async function createCollectionIfNotExists(collectionName) {
+    try {
+        const collectionNames = await mongoDB.listCollections().toArray();
+        const collectionExists = collectionNames.some((collection) => collection.name === collectionName);
+
+        if (!collectionExists) {
+            await createUserCollection(mongoDB);
+            Logger.info(`Collection '${collectionName}' created.`);
+        } else {
+            Logger.info(`Collection '${collectionName}' already exists.`);
+        }
+    } catch (error) {
+        Logger.error(`Error creating/checking collection '${collectionName}': ${error}`);
     }
 }
 

@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
 const socketIO = require('socket.io');
-const Logger = require('./Helpers/Logger');
+const Logger = require('./helpers/logger');
 const routes = require('./routes/routes.js');
 const {connectToMongoDB, closeMongoDB} = require('./config/mongo');
 require('dotenv').config();
@@ -25,22 +25,12 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         Logger.info(`Socket disconnected: ${socket.id}`);
         connectedClients.delete(socket);
-
-        if (connectedClients.size === 0) {
-            closeMongoDB()
-                .then(() => {
-                    Logger.info('MongoDB connection closed Successfully');
-                })
-                .catch((error) => {
-                    Logger.error(`Error closing MongoDB connection: ${error}`);
-                });
-        }
     });
 
     if (connectedClients.size === 1) {
         connectToMongoDB()
             .then(() => {
-                Logger.info('MongoDB connection opened');
+                Logger.info('After initial steps, MongoDB connection opened');
             })
             .catch((error) => {
                 Logger.error(`Error opening MongoDB connection: ${error}`);
@@ -57,8 +47,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use((err, req, res, next) => {
         res.status(err.status || 500).json({
             error: {
-                message: err.message,
-                stack: err.stack,
+                message: err.message, stack: err.stack,
             },
         });
     });
@@ -71,11 +60,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(
-        helmet({
-            contentSecurityPolicy: false,
-        })
-    );
+    app.use(helmet({
+        contentSecurityPolicy: false,
+    }));
 }
 
 app.get('/', (req, res) => {

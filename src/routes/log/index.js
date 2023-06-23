@@ -1,5 +1,5 @@
 const express = require('express');
-const getLog = require('./get_log');
+const getLog = require('./getLog');
 
 const router = express.Router();
 

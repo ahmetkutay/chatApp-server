@@ -1,5 +1,5 @@
 const express = require('express');
-const getUserList = require('./get_user_list');
+const getUserList = require('./getUserList');
 
 const router = express.Router();
 

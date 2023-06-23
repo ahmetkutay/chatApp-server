@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const Logger = require('../../Helpers/Logger');
+const Logger = require('../../helpers/logger');
 
 const router = express.Router();
 
