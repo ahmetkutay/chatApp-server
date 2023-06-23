@@ -13,11 +13,13 @@ const userSchema = {
             },
             firstName: {
                 bsonType: "string",
+                maximum: 75,
                 maxLength: 75,
                 description: "'first_name' is required and is a string"
             },
             lastName: {
                 bsonType: "string",
+                maximum: 75,
                 maxLength: 75,
                 description: "'last_name' is required and is a string"
             },

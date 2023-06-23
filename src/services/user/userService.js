@@ -8,15 +8,15 @@ class UserService {
         this.userCollection = this.mongoDBConn.collection('users');
     }
 
-    static async findByEmail(email) {
+    async findByEmail(email) {
         return this.userCollection.findOne({email}).exec();
     }
 
-    static async findByMobileNumber(mobileNumber) {
+    async findByMobileNumber(mobileNumber) {
         return this.userCollection.findOne({mobileNumber}).exec();
     }
 
-    static async findByUsername(username) {
+    async findByUsername(username) {
         return this.userCollection.findOne({username}).exec();
     }
 

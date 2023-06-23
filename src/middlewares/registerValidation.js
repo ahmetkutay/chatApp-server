@@ -1,6 +1,9 @@
 const Ajv = require('ajv');
 const ajv = new Ajv({allErrors: true, $data: true});
+require('ajv-formats')(ajv);
+require('ajv-errors')(ajv);
 const Logger = require('../helpers/logger');
+ajv.addFormat('mobileNumber', /^\d{10}$/);
 
 const schema = {
     type: 'object',
@@ -20,6 +23,12 @@ const schema = {
             maximum: 100,
             errorMessage: 'Last name must be between 1 and 100 characters long'
         },
+        password: {
+            type: 'string',
+            minLength: 8,
+            maxLength: 100,
+            errorMessage: 'Password must be between 8 and 100 characters long'
+        },
         email: {
             type: 'string',
             format: 'email',
@@ -27,11 +36,11 @@ const schema = {
         },
         mobileNumber: {
             type: 'string',
-            format: 'mobile_number',
+            format: 'mobileNumber',
             errorMessage: 'Invalid mobile number'
         }
     },
-    required: ['name', 'firstName', "lastName", 'email', 'mobileNumber',],
+    required: ['username', 'firstName', "lastName", 'email', 'mobileNumber',],
     additionalProperties: false,
 };
 

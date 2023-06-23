@@ -11,6 +11,7 @@ let mongoDB;
 async function connectToMongoDB() {
     mongoClient = new MongoClient(dsn);
     try {
+        Logger.info(`Connecting to MongoDB data ${db}... ${dsn  }`);
         Logger.info('Connecting to MongoDB...');
         await mongoClient.connect();
         mongoDB = mongoClient.db(db);

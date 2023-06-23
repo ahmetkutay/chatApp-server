@@ -10,7 +10,8 @@ router.post(
     ajvMiddleware,
     async (req, res, next) => {
         try {
-            const existingEmail = await UserService.findByEmail(req.body.email);
+            const userService = new UserService();
+            const existingEmail = await userService.findByEmail(req.body.email);
             if (existingEmail) {
                 return res.status(400).send('The given email address already exists!');
             }
