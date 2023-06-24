@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const UserService = require('../../services/user/userService');
-
+const Logger = require('../../helpers/logger');
 const ajvMiddleware = require('../../middlewares/registerValidation');
 
 const router = Router();
@@ -27,7 +27,7 @@ router.post(
 
             const user = await UserService.createUser(userData);
 
-
+            Logger.info(`POST /api/users - user: ${JSON.stringify(user)}`);
             return res.status(200).json({user});
         } catch (err) {
             return next(err);

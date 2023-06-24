@@ -19,7 +19,14 @@ class User {
     }
 
     validate() {
-        if (!this.data.username || !this.data.firstName || !this.data.lastName || !this.data.email || !this.data.password || !this.data.mobileNumber) {
+        if (
+            !this.data.username ||
+            !this.data.firstName ||
+            !this.data.lastName ||
+            !this.data.email ||
+            !this.data.password ||
+            !this.data.mobileNumber
+        ) {
             throw new Error('Required fields are missing');
         }
     }
@@ -30,10 +37,10 @@ class User {
         if (this.data.password) {
             this.data.password = await User.generateHash(this.data.password);
         }
-        this.data.createdAt = currentDate;
-        this.data.lastUpdatedAt = currentDate;
+        //this.completeRegistrationData();
 
         try {
+            console.log('this.data: ', this.data);
             await this.collection.insertOne(this.data);
             Logger.info('User saved successfully.');
             return this.data;
@@ -42,6 +49,32 @@ class User {
             throw new Error('Error saving user');
         }
     }
+
+    completeRegistrationData() {
+        if (!this.data.verified) {
+            this.data.verified = false;
+        }
+
+        if (!this.data.activeStatus) {
+            this.data.activeStatus = 'active';
+        }
+
+        if (!this.data.oauthProfiles) {
+            this.data.oauthProfiles = [];
+        }
+
+        if (!this.data.acceptTerms) {
+            this.data.acceptTerms = 'not_accepted';
+        }
+
+        if (!this.data.verificationToken) {
+            this.data.verificationToken = '';
+        }
+
+        this.data.createdAt = currentDate;
+        this.data.lastUpdatedAt = currentDate;
+    }
+
 }
 
 module.exports = User;

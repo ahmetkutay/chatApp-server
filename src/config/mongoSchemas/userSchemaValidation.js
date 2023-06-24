@@ -3,7 +3,7 @@ const Logger = require('../../helpers/logger');
 const userSchema = {
     $jsonSchema: {
         bsonType: "object",
-        required: ["username", "first_name", "last_name", "email", "password", "mobile_number"],
+        required: ["username", "firstName", "lastName", "email", "password", "mobileNumber"],
         additionalProperties: false,
         properties: {
             username: {

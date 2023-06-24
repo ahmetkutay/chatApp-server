@@ -8,16 +8,26 @@ class UserService {
         this.userCollection = this.mongoDBConn.collection('users');
     }
 
+    static async createUser(userData) {
+        try {
+            const user = new User(userData);
+            return await user.save();
+        } catch (error) {
+            Logger.error(`Error creating user: ${error}`);
+            throw error;
+        }
+    }
+
     async findByEmail(email) {
-        return this.userCollection.findOne({email}).exec();
+        return this.userCollection.findOne({email});
     }
 
     async findByMobileNumber(mobileNumber) {
-        return this.userCollection.findOne({mobileNumber}).exec();
+        return this.userCollection.findOne({mobileNumber});
     }
 
     async findByUsername(username) {
-        return this.userCollection.findOne({username}).exec();
+        return this.userCollection.findOne({username});
     }
 
     async listUsers() {
@@ -27,16 +37,6 @@ class UserService {
             return users;
         } catch (error) {
             Logger.error(`Error listing users: ${error}`);
-            throw error;
-        }
-    }
-
-    async createUser(userData) {
-        try {
-            const user = new User(userData);
-            return await user.save();
-        } catch (error) {
-            Logger.error(`Error creating user: ${error}`);
             throw error;
         }
     }
