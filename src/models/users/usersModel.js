@@ -2,8 +2,6 @@ const {getMongoDBConnection} = require('../../config/mongo');
 const Logger = require('../../helpers/logger');
 const bcrypt = require('bcrypt');
 
-const currentDate = new Date().toLocaleString('en-US', {timeZone: 'UTC'});
-
 class User {
     constructor(data) {
         this.collection = getMongoDBConnection().collection('users');
@@ -37,11 +35,12 @@ class User {
         if (this.data.password) {
             this.data.password = await User.generateHash(this.data.password);
         }
-        //this.completeRegistrationData();
+        await this.completeRegistrationData();
 
         try {
-            console.log('this.data: ', this.data);
-            await this.collection.insertOne(this.data);
+            await this.collection.insertOne(this.data).catch((err) => {
+                Logger.log('Got error while creating user: ', err);
+            });
             Logger.info('User saved successfully.');
             return this.data;
         } catch (error) {
@@ -51,28 +50,13 @@ class User {
     }
 
     completeRegistrationData() {
-        if (!this.data.verified) {
-            this.data.verified = false;
-        }
-
-        if (!this.data.activeStatus) {
-            this.data.activeStatus = 'active';
-        }
-
-        if (!this.data.oauthProfiles) {
-            this.data.oauthProfiles = [];
-        }
-
-        if (!this.data.acceptTerms) {
-            this.data.acceptTerms = 'not_accepted';
-        }
-
-        if (!this.data.verificationToken) {
-            this.data.verificationToken = '';
-        }
-
-        this.data.createdAt = currentDate;
-        this.data.lastUpdatedAt = currentDate;
+        this.data.verified = false;
+        this.data.activeStatus = false;
+        this.data.oauthProfiles = [];
+        this.data.acceptTerms = false;
+        this.data.verificationToken = '';
+        this.data.createdAt = new Date();
+        this.data.lastUpdatedAt = new Date();
     }
 
 }

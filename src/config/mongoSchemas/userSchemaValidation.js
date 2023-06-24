@@ -4,7 +4,7 @@ const userSchema = {
     $jsonSchema: {
         bsonType: "object",
         required: ["username", "firstName", "lastName", "email", "password", "mobileNumber"],
-        additionalProperties: false,
+        additionalProperties: true,
         properties: {
             username: {
                 bsonType: "string",
@@ -13,15 +13,15 @@ const userSchema = {
             },
             firstName: {
                 bsonType: "string",
-                maximum: 75,
+                minLength: 2,
                 maxLength: 75,
-                description: "'first_name' is required and is a string"
+                description: "'firstName' is required and is a string"
             },
             lastName: {
                 bsonType: "string",
-                maximum: 75,
+                minLength: 2,
                 maxLength: 75,
-                description: "'last_name' is required and is a string"
+                description: "'lastName' is required and is a string"
             },
             email: {
                 bsonType: "string",
@@ -34,7 +34,7 @@ const userSchema = {
             mobileNumber: {
                 bsonType: "string",
                 maxLength: 10,
-                description: "'mobile_number' is an optional field and is a string"
+                description: "'mobileNumber' is an optional field and is a string"
             },
             verified: {
                 bsonType: "bool",
@@ -43,23 +43,20 @@ const userSchema = {
             verificationToken: {
                 bsonType: "string",
                 maxLength: 6,
-                description: "'verification_token' is required and is a string"
+                description: "'verificationToken' is required and is a string"
             },
             activeStatus: {
                 bsonType: "bool",
-                enum: ["active", "inactive"],
                 description: "Status with a default value of 'active' or 'inactive'."
             },
             oauthProfiles: {
                 bsonType: "array",
                 maxItems: 5,
-                description: "'oauth_profiles' is an optional field and is an array"
+                description: "'oauthProfiles' is an optional field and is an array"
             },
             acceptTerms: {
-                bsonType: "array",
-                maxItems: 5,
-                enum: ["accepted", "not_accepted"],
-                description: "'oauth_profiles' is an optional field and is an array"
+                bsonType: "bool",
+                description: "'acceptTerms' is an optional field and is a boolean"
             },
             createdAt: {
                 bsonType: "date",
@@ -72,6 +69,7 @@ const userSchema = {
         }
     }
 };
+
 
 async function createUserCollection(mongoDB) {
     try {

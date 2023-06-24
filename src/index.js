@@ -4,7 +4,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const Logger = require('./helpers/logger');
 const routes = require('./routes/routes.js');
-const {connectToMongoDB, closeMongoDB} = require('./config/mongo');
+const {connectToMongoDB} = require('./config/mongo');
 require('dotenv').config();
 
 const app = express();
