@@ -12,6 +12,7 @@
     "clean": "rm -rf dist",
     "clean:local": "del dist",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "transpile": "npx babel src -d dist"
   },
   "repository": {

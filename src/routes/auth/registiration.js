@@ -29,7 +29,7 @@ router.post(
             const result = {
                 user: user._id,
                 accessToken
-            }
+            };
             return res.status(200).json(result);
         } catch (err) {
             return next(err);
