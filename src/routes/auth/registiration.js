@@ -1,21 +1,18 @@
 const {Router} = require('express');
 const UserService = require('../../services/user/userService');
 const Logger = require('../../helpers/logger');
-const ajvMiddleware = require('../../middlewares/registerValidation');
+const {ajvMiddleware, checkExistingUser} = require('../../middlewares/registerValidation');
+const JWT = require('../../helpers/jwtHelper');
 
 const router = Router();
 
 router.post(
     '/',
     ajvMiddleware,
+    checkExistingUser,
     async (req, res, next) => {
+        const jwtHelper = new JWT();
         try {
-            const userService = new UserService();
-            const existingEmail = await userService.findByEmail(req.body.email);
-            if (existingEmail) {
-                return res.status(400).send('The given email address already exists!');
-            }
-
             const userData = {
                 username: req.body.username,
                 firstName: req.body.firstName,
@@ -26,9 +23,14 @@ router.post(
             };
 
             const user = await UserService.createUser(userData);
-
-            Logger.info(`POST /api/users - user: ${JSON.stringify(user)}`);
-            return res.status(200).json({user});
+            const accessTokenPayload = {userId: user._id, username: user.username};
+            const accessToken = jwtHelper.generateAccessToken(accessTokenPayload);
+            Logger.info(`POST /api/users - user: ${JSON.stringify(user._id)} accessToken: ${accessToken}`);
+            const result = {
+                user: user._id,
+                accessToken
+            }
+            return res.status(200).json(result);
         } catch (err) {
             return next(err);
         }

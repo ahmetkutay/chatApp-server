@@ -3,6 +3,7 @@ const ajv = new Ajv({allErrors: true, $data: true});
 require('ajv-formats')(ajv);
 require('ajv-errors')(ajv);
 const Logger = require('../helpers/logger');
+const UserService = require("../services/user/userService");
 ajv.addFormat('mobileNumber', /^\d{10}$/);
 
 const schema = {
@@ -58,4 +59,28 @@ function ajvMiddleware(req, res, next) {
     next();
 }
 
-module.exports = ajvMiddleware;
+async function checkExistingUser(req, res, next) {
+    const userService = new UserService();
+    const existingEmail = await userService.findByEmail(req.body.email);
+    const existingUsername = await userService.findByUsername(req.body.username);
+    const existingMobileNumber = await userService.findByMobileNumber(req.body.mobileNumber);
+    if (existingEmail || existingUsername || existingMobileNumber) {
+        let errorMessage = '';
+
+        if (existingEmail) {
+            Logger.debug(`POST /api/users - email: ${req.body.email} already exists!`);
+            errorMessage = 'The given email address already exists!';
+        } else if (existingUsername) {
+            Logger.debug(`POST /api/users - username: ${req.body.username} already exists!`);
+            errorMessage = 'The given username already exists!';
+        } else if (existingMobileNumber) {
+            Logger.debug(`POST /api/users - mobileNumber: ${req.body.mobileNumber} already exists!`);
+            errorMessage = 'The given mobile number already exists!';
+        }
+
+        return res.status(400).json({error: errorMessage});
+    }
+    next();
+}
+
+module.exports = {ajvMiddleware, checkExistingUser};

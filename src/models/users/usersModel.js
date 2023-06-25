@@ -39,7 +39,7 @@ class User {
 
         try {
             await this.collection.insertOne(this.data).catch((err) => {
-                Logger.log('Got error while creating user: ', err);
+                Logger.error('Got error while creating user: ', err);
             });
             Logger.info('User saved successfully.');
             return this.data;
