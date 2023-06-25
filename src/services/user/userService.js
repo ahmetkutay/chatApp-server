@@ -5,7 +5,7 @@ const User = require('../../models/users/usersModel');
 class UserService {
     constructor() {
         this.mongoDBConn = getMongoDBConnection();
-        this.userCollection = this.mongoDBConn.collection('users');
+        this.userCollection = this.userCollection !== undefined ? this.userCollection : this.mongoDBConn.collection('users');
     }
 
     static async createUser(userData) {
@@ -39,6 +39,11 @@ class UserService {
             Logger.error(`Error listing users: ${error}`);
             throw error;
         }
+    }
+
+    async validatePassword(password, hashedPassword) {
+        const user = new User();
+        return await user.comparePassword(password, hashedPassword);
     }
 }
 

@@ -12,7 +12,7 @@ class User {
         return bcrypt.hash(password, 12);
     }
 
-    static async comparePassword(candidatePassword, hashedPassword) {
+    async comparePassword(candidatePassword, hashedPassword) {
         return bcrypt.compare(candidatePassword, hashedPassword);
     }
 

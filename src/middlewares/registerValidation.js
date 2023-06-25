@@ -68,13 +68,13 @@ async function checkExistingUser(req, res, next) {
         let errorMessage = '';
 
         if (existingEmail) {
-            Logger.debug(`POST /api/users - email: ${req.body.email} already exists!`);
+            Logger.info(`POST /api/users - email: ${req.body.email} already exists!`);
             errorMessage = 'The given email address already exists!';
         } else if (existingUsername) {
-            Logger.debug(`POST /api/users - username: ${req.body.username} already exists!`);
+            Logger.info(`POST /api/users - username: ${req.body.username} already exists!`);
             errorMessage = 'The given username already exists!';
         } else if (existingMobileNumber) {
-            Logger.debug(`POST /api/users - mobileNumber: ${req.body.mobileNumber} already exists!`);
+            Logger.info(`POST /api/users - mobileNumber: ${req.body.mobileNumber} already exists!`);
             errorMessage = 'The given mobile number already exists!';
         }
 
