@@ -52,6 +52,7 @@ const logToFiles = (level, message) => {
 };
 
 logger.info = (message) => logToFiles('info', message);
+logger.debug = (message) => logToFiles('debug', message);
 logger.warn = (message) => logToFiles('warn', message);
 logger.error = (message) => logToFiles('error', message);
 

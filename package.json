@@ -5,13 +5,14 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon dist/index.js",
-    "start:dev": "nodemon src/index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon --trace-warnings src/index.js",
     "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --no-cache",
     "build": "npm run clean && npm run lint && npm run transpile",
     "build:local": "npm run clean:local && npm run lint && npm run transpile",
     "clean": "rm -rf dist",
     "clean:local": "del dist",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "transpile": "npx babel src -d dist"
   },
   "repository": {
@@ -32,9 +33,17 @@
   },
   "homepage": "https://github.com/ahmetkutay/chatApp-server#readme",
   "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^2.1.1",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
     "mkdirp": "^3.0.1",
+    "mongodb": "^5.6.0",
+    "socket.io": "^4.6.2",
     "winston": "^3.9.0"
   },
   "devDependencies": {
