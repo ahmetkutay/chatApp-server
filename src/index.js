@@ -4,6 +4,8 @@ const http = require('http');
 const Logger = require('./helpers/logger');
 const routes = require('./routes/routes.js');
 const {connectToMongoDB} = require('./config/mongo');
+const {connectToMySQL} = require('./config/mysql');
+const {connectToRedis} = require('./config/redis.js');
 require('dotenv').config();
 
 const app = express();
@@ -70,6 +72,20 @@ if (process.env.NODE_ENV !== 'testing') {
             })
             .catch((error) => {
                 Logger.error(`Error opening MongoDB connection: ${error}`);
+            });
+        connectToMySQL()
+            .then(() => {
+                Logger.info('After initial steps, MySQL connection opened');
+            })
+            .catch((error) => {
+                Logger.error(`Error opening MySQL connection: ${error}`);
+            });
+        connectToRedis()
+            .then(() => {
+                Logger.info('After initial steps, Redis connection opened');
+            })
+            .catch((error) => {
+                Logger.error(`Error opening Redis connection: ${error}`);
             });
     });
 }
