@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  backend:
+    image: node:21
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: npm start
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+      - mysql
+      - redis
+
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:latest
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+
+volumes:
+  mongodb-data:
+  mysql-data:
+  redis-data:
