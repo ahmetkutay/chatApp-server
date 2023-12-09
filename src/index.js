@@ -9,34 +9,6 @@ require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
-
-const connectedClients = new Set();
-
-io.on('connection', (socket) => {
-    Logger.info(`Socket connected: ${socket.id}`);
-
-    connectedClients.add(socket);
-
-    socket.on('heartbeat', () => {
-        Logger.info(`Received heartbeat from client: ${socket.id}`);
-    });
-
-    socket.on('disconnect', () => {
-        Logger.info(`Socket disconnected: ${socket.id}`);
-        connectedClients.delete(socket);
-    });
-
-    if (connectedClients.size === 1) {
-        connectToMongoDB()
-            .then(() => {
-                Logger.info('After initial steps, MongoDB connection opened');
-            })
-            .catch((error) => {
-                Logger.error(`Error opening MongoDB connection: ${error}`);
-            });
-    }
-});
 
 app.use(express.json());
 app.use(helmet());
@@ -93,6 +65,13 @@ const port = process.env.PORT || 8080;
 if (process.env.NODE_ENV !== 'testing') {
     server.listen(port, async () => {
         Logger.info(`Server is running on port ${port}`);
+        connectToMongoDB()
+            .then(() => {
+                Logger.info('After initial steps, MongoDB connection opened');
+            })
+            .catch((error) => {
+                Logger.error(`Error opening MongoDB connection: ${error}`);
+            });
     });
 }
 
