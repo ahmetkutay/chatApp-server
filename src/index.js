@@ -1,7 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
-const socketIO = require('socket.io');
 const Logger = require('./helpers/logger');
 const routes = require('./routes/routes.js');
 const {connectToMongoDB} = require('./config/mongo');
@@ -74,4 +73,3 @@ if (process.env.NODE_ENV !== 'testing') {
             });
     });
 }
-

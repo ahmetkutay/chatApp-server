@@ -30,7 +30,8 @@ module.exports = {
     "rules": {
         "linebreak-style": [
             "error",
-            "unix"
+            "unix",
+            "windows"
         ],
         "semi": [
             "error",
