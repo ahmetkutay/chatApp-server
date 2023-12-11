@@ -16,22 +16,22 @@ app.use(express.json());
 app.use(helmet());
 app.use('/api', routes);
 
-if (process.env.NODE_ENV === 'development') {
-    app.use((err, req, res, next) => {
-        Logger.error(err.stack);
-        const errorResponse = {
-            message: 'Internal Server Error',
-        };
 
-        if (req.app.get('env') === 'development') {
-            errorResponse.error = err.message;
-        }
+app.use((err, req, res, next) => {
+    Logger.error(err.stack);
+    const errorResponse = {
+        message: 'Internal Server Error',
+    };
 
-        res.status(500).json(errorResponse);
-    });
+    if (req.app.get('env') === 'development') {
+        errorResponse.error = err.message;
+    }
 
-    app.use(cors());
-}
+    res.status(500).json(errorResponse);
+});
+
+app.use(cors());
+
 
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet({
@@ -44,19 +44,6 @@ app.get('/', (req, res) => {
     return res.status(200).json({success: true, users: []});
 });
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-
-    const errorResponse = {
-        message: 'Internal Server Error',
-    };
-
-    if (req.app.get('env') === 'development') {
-        errorResponse.error = err.message;
-    }
-
-    res.status(500).json(errorResponse);
-});
 
 module.exports = app;
 
@@ -66,21 +53,21 @@ const port = process.env.PORT || 8080;
 if (process.env.NODE_ENV !== 'testing') {
     server.listen(port, async () => {
         Logger.info(`Server is running on port ${port}`);
-        connectToMongoDB()
+        await connectToMongoDB()
             .then(() => {
                 Logger.info('After initial steps, MongoDB connection opened');
             })
             .catch((error) => {
                 Logger.error(`Error opening MongoDB connection: ${error}`);
             });
-        connectToMySQL()
+        await connectToMySQL()
             .then(() => {
                 Logger.info('After initial steps, MySQL connection opened');
             })
             .catch((error) => {
                 Logger.error(`Error opening MySQL connection: ${error}`);
             });
-        connectToRedis()
+        await connectToRedis()
             .then(() => {
                 Logger.info('After initial steps, Redis connection opened');
             })

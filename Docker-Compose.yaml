@@ -2,12 +2,9 @@ version: '3'
 
 services:
   backend:
-    image: node:21
-    working_dir: /app
-    volumes:
-      - ./:/app
-    command: npm start
-    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:

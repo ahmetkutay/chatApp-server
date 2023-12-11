@@ -1,41 +1,30 @@
 module.exports = {
-    "env": {
-        "commonjs": true,
-        "es2021": true,
+    env: {
+        commonjs: true,
+        es2021: true,
         node: true,
-        jest: true,
         browser: true,
-        mongo: true
+        jest: true,
     },
-    "extends": "eslint:recommended",
-    "overrides": [
+    extends: 'eslint:recommended',
+    overrides: [
         {
-            "env": {
-                node: true,
-                jest: true,
-                browser: true,
-                mongo: true
+            files: ['.eslintrc.{js,cjs}', '.eslintignore', 'src/**/*.js'],
+            parserOptions: {
+                sourceType: 'script',
+                ecmaVersion: 12,
             },
-            "files": [
-                ".eslintrc.{js,cjs}"
-            ],
-            "parserOptions": {
-                "sourceType": "script"
-            }
-        }
+        },
     ],
-    "parserOptions": {
-        "ecmaVersion": "latest"
+    parserOptions: {
+        ecmaVersion: 12,
     },
-    "rules": {
-        "linebreak-style": [
-            "error",
-            "unix",
-            "windows"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+    rules: {
+        'linebreak-style': ['error', ['unix','windows']],
+        semi: ['error', 'always'],
+        indent: ['error', 4],
+        quotes: ['error', 'single'],
+        camelcase: ['error'],
+        'no-unused-vars': ['error'],
     },
 };

@@ -1,21 +1,36 @@
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
-    database: {
-        dsn: process.env.NODE_ENV !== 'development' ? process.env.DATABASE_CONNECTION_PROD : process.env.DATABASE_CONNECTION_DEVELOPMENT,
-        db: process.env.NODE_ENV !== 'development' ? process.env.DATABASE_NAME_PROD : process.env.DATABASE_NAME_DEVELOPMENT,
+  database: {
+    mongodb: {
+      dsn: 'mongodb://'+ process.env.MONGO_HOST + ":" + process.env.MONGO_PORT,
+      db: process.env.MONGO_INITDB_DATABASE,
+      username: process.env.MONGO_INITDB_ROOT_USERNAME,
+      password: process.env.MONGO_INITDB_ROOT_PASSWORD,
     },
-    jwtSecrets: {
-        jwtSecret: process.env.JWTSECRET,
-        accessTokenExpiration: process.env.ACCESSTOKENEXPIRATION,
-        refreshTokenExpiration: process.env.REFRESHTOKENEXPIRATION
+    mysql: {
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
+      db: process.env.MYSQL_DB,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
     },
-    encryptionSecrets: {
-        aesEncryptionSecret: {ENC: process.env.ENC, IV: process.env.IV},
-        rsaEncryptionSecret: {
-            privateKey: process.env.RSA_PRIVATE_KEY,
-            publicKey: process.env.RSA_PUBLIC_KEY,
-            passphrase: process.env.RSA_PRIVATE_KEY_PASSPHRASE
-        },
-    }
+    redis: {
+      password: process.env.REDIS_PASSWORD,
+    },
+  },
+  jwtSecrets: {
+    jwtSecret: process.env.JWTSECRET,
+    accessTokenExpiration: process.env.ACCESSTOKENEXPIRATION,
+    refreshTokenExpiration: process.env.REFRESHTOKENEXPIRATION,
+  },
+
+  encryptionSecrets: {
+    aesEncryptionSecret: { ENC: process.env.ENC, IV: process.env.IV },
+    rsaEncryptionSecret: {
+      privateKey: process.env.RSA_PRIVATE_KEY,
+      publicKey: process.env.RSA_PUBLIC_KEY,
+      passphrase: process.env.RSA_PRIVATE_KEY_PASSPHRASE,
+    },
+  },
 };
