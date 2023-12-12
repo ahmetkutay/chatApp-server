@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 const config = require("./config");
 const Logger = require("../helpers/logger");
-const { createUserCollection } = require("./mongoSchemas/userSchemaValidation");
 
 let mongoClient;
 let mongoDB;

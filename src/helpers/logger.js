@@ -1,3 +1,9 @@
+/**
+ * Sets up a logger using the Winston library.
+ *
+ * @module logger
+ */
+
 const winston = require('winston');
 const {createLogger, format, transports} = winston;
 const fs = require('fs');
@@ -10,6 +16,11 @@ if (!fs.existsSync(logDirectory)) {
     fs.mkdirSync(logDirectory);
 }
 
+/**
+ * Returns a formatted log file name based on the current date.
+ *
+ * @returns {string} The formatted log file name.
+ */
 const getCurrentLogFileName = () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString().replace(/\//g, '-');
@@ -33,6 +44,9 @@ const logger = createLogger({
 let currentDate = new Date().toLocaleDateString();
 let currentLogFile = path.join(logDirectory, getCurrentLogFileName());
 
+/**
+ * Checks if the current date has changed and creates a new log file if it has.
+ */
 const checkAndCreateNewLogFile = () => {
     const now = new Date().toLocaleDateString();
     if (now !== currentDate) {
@@ -46,6 +60,12 @@ const checkAndCreateNewLogFile = () => {
     }
 };
 
+/**
+ * Checks and creates a new log file if necessary, and then logs the message using the logger's `log` method.
+ *
+ * @param {string} level - The log level.
+ * @param {string} message - The log message.
+ */
 const logToFiles = (level, message) => {
     checkAndCreateNewLogFile();
     logger.log({level, message});
