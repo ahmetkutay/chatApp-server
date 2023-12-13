@@ -70,10 +70,6 @@ const userSchema = {
                 bsonType: "date",
                 description: "Creation date with a default value of the last login date."
             },
-            resetPasswordToken : {
-                bsonType: "string",
-                description: "'resetPasswordToken' is an optional field and is a string"
-            },
 
         }
     }
@@ -89,31 +85,4 @@ async function createUserCollection(mongoDB) {
     }
 }
 
-async function migrateData(mongoDB, documentType) {
-    try {
-        const collection = mongoDB.collection('users');
-
-        const cursor = collection.find();
-        for (const document of cursor) {
-            try {
-                document[documentType] = document[documentType] || '';
-                document['verified'] = document['verified'] || false;
-                document['activeStatus'] = document['activeStatus'] || false;
-                document['oauthProfiles'] = document['oauthProfiles'] || [];
-                document['acceptTerms'] = document['acceptTerms'] || false;
-                document['createdAt'] = document['createdAt'] || new Date();
-                document['lastUpdatedAt'] = document['lastUpdatedAt'] || new Date();
-
-                await collection.save(document);
-            } catch (error) {
-                Logger.error(`Error migrating data for document with _id ${document._id}: ${error}`);
-            }
-        }
-
-        Logger.info('Data migration completed.');
-    } catch (error) {
-        Logger.error(`Error during data migration: ${error}`);
-    }
-  }
-
-module.exports = {createUserCollection, migrateData};
+module.exports = {createUserCollection};

@@ -10,7 +10,6 @@ async function connectToMongoDB() {
   const authMechanism = "DEFAULT";
   const authSource = "admin";
   const mongoUrl = `${dsn}/${db}?authSource=${authSource}&authMechanism=${authMechanism}`;
-  console.log(mongoUrl)
   mongoClient = new MongoClient(mongoUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
