@@ -8,9 +8,9 @@ let mongoDB;
 async function connectToMongoDB() {
   const { dsn, db, username, password } = config.database.mongodb;
   const authMechanism = "DEFAULT";
-  const authSource = "admin"; // or your auth database
+  const authSource = "admin";
   const mongoUrl = `${dsn}/${db}?authSource=${authSource}&authMechanism=${authMechanism}`;
-
+  console.log(mongoUrl)
   mongoClient = new MongoClient(mongoUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

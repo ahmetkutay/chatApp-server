@@ -45,6 +45,7 @@
     "mkdirp": "^3.0.1",
     "mongodb": "^5.6.0",
     "mysql2": "^3.6.5",
+    "openai": "^4.20.1",
     "punycode": "^2.3.1",
     "redis": "^4.6.11",
     "socket.io": "^4.6.2",

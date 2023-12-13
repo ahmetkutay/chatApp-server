@@ -1,9 +1,9 @@
-require("dotenv").config();
+require('dotenv').config({ path: __dirname + '/../../.env' });
 
-module.exports = {
+const config = {
   database: {
     mongodb: {
-      dsn: 'mongodb://'+ process.env.MONGO_HOST + ":" + process.env.MONGO_PORT,
+      dsn: "mongodb://" + process.env.MONGO_HOST + ":" + process.env.MONGO_PORT,
       db: process.env.MONGO_INITDB_DATABASE,
       username: process.env.MONGO_INITDB_ROOT_USERNAME,
       password: process.env.MONGO_INITDB_ROOT_PASSWORD,
@@ -34,3 +34,5 @@ module.exports = {
     },
   },
 };
+
+module.exports = config;
